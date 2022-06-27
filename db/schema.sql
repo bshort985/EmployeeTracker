@@ -1,0 +1,16 @@
+DROP DATABASE IF EXISTS employees;
+CREATE DATABASE employees;
+
+USE employees;
+
+CREATE TABLE department (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE role (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) UNIQUE NOT NULL,
+    salary DECIMAL NOT NULL,
+    dept_id INT NOT NULL 
+);
