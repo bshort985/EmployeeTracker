@@ -1,5 +1,4 @@
 const { prompt } = require("inquirer");
-const { inherits } = require("util");
 const db = require("./db");
 require("console.table");
 
@@ -7,10 +6,13 @@ require("console.table");
 
 init();
 
+function init() {
+    loadPrompts();
+}
+
 // Create prompts
-// view all departments
-// view all roles
-// view all employees
+
+
 // add a department
 // add a role 
 // add an employee
@@ -26,15 +28,15 @@ function loadPrompts() {
             choices: [
                 {
                     name: "View all departments",
-                    value: "add function"
+                    value: "SHOW_ALL_DEPARTMENTS"
                 },
                 {
                     name: "View all roles",
-                    value: "add function"
+                    value: "SHOW_ALL_ROLES"
                 },
                 {
                     name: "View all employees",
-                    value: "add function"
+                    value: "SHOW_ALL_EMPLOYEES"
                 },
                 {
                     name: "Add a department",
@@ -58,6 +60,51 @@ function loadPrompts() {
                 }
             ]
         }
-    ])
+    ]).then(res => {
+        let choice = res.choice;
+        switch (choice) {
+            case "SHOW_ALL_DEPARTMENTS":
+                allDepartments();
+                break;
+            case "SHOW_ALL_ROLES":
+                allRoles();
+                break;
+            case "SHOW_ALL_EMPLOYEES":
+                allEmployees();
+                break;
+        }
+    })
 
+}
+
+// view all departments
+
+function allDepartments() {
+    db.showAllDepartments()
+      .then(([rows]) => {
+        let departments = rows;
+        console.table(departments);
+      })
+      .then(() => loadPrompts());
+  }
+
+  // view all roles
+
+  function allRoles() {
+    db.showAllRoles()
+      .then(([rows]) => {
+        let roles = rows;
+        console.table(roles);
+      })
+      .then(() => loadPrompts());
+  }
+
+// view all employees
+
+function allEmployees() {
+    db.showAllEmployees()
+    .then(([rows]) => {
+        let employees = rows;
+        console.table(employees);
+    }).then(() => loadPrompts());
 }
